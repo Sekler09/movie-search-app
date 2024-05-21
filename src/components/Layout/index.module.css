@@ -1,0 +1,30 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  padding: 24px;
+  background-color: var(--mantine-color-purple-1);
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+}
+
+.navlink {
+  padding: 10px;
+  font-size: 16px;
+  color: var(--mantine-color-black);
+  text-decoration: none;
+}
+
+.navlink:hover {
+  color: var(--mantine-color-purple-4);
+}
+
+.active {
+  color: var(--mantine-color-purple-5);
+  font-weight: 700;
+  background-color: var(--mantine-color-purple-2);
+  border-radius: 8px;
+}
