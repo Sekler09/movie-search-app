@@ -14,6 +14,7 @@ import { useDisclosure } from '@mantine/hooks';
 import RatingModal from '@components/RatingModal';
 import useManageRatedMovies from '@/hooks/useManageRatedMovies';
 import { useNavigate } from 'react-router-dom';
+import noPosterImage from '@assets/noposter.svg';
 
 const IMAGES_URL = import.meta.env.VITE_IMAGES_URL;
 
@@ -78,7 +79,7 @@ const MovieCard: FC<MovieCardProps> = ({ movie, type, genres }) => {
       <Box w={isSmall ? 120 : 250} h={isSmall ? 170 : 350}>
         <Image
           src={`${IMAGES_URL}${poster}`}
-          fallbackSrc="src/assets/noposter.svg"
+          fallbackSrc={noPosterImage}
           w={isSmall ? 120 : 250}
           h={isSmall ? 170 : 350}
         />
