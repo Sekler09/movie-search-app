@@ -49,7 +49,9 @@ const Layout: FC = () => {
         </Stack>
       </AppShell.Navbar>
       <AppShell.Main>
-        <Outlet />
+        <Stack px={90} py={40} mih="100vh" bg="gray.1">
+          <Outlet />
+        </Stack>
       </AppShell.Main>
     </AppShell>
   );
