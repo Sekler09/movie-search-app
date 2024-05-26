@@ -22,7 +22,7 @@ const App: FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
-        <RouterProvider router={router}></RouterProvider>;
+        <RouterProvider router={router}></RouterProvider>
         <ReactQueryDevtools buttonPosition="bottom-left" />
       </MantineProvider>
     </QueryClientProvider>

@@ -64,7 +64,6 @@ const MovieCard: FC<MovieCardProps> = ({ movie, isBig, genres }) => {
       wrap="nowrap"
       justify="space-between"
       maw="100%"
-      miw={0}
       onClick={handleCardClick}
     >
       <Box w={isBig ? 250 : 120} h={isBig ? 350 : 170}>

@@ -12,6 +12,8 @@ export interface ProductionCompany {
 
 export interface Video {
   key: string;
+  site: string;
+  name: string;
 }
 
 export interface Movie {

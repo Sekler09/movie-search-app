@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import { AppShell, Group, Stack, Text } from '@mantine/core';
+import { FC, useLayoutEffect } from 'react';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { AppShell, Group, Image, Stack, Text } from '@mantine/core';
 import clsx from 'clsx';
 
 import logo from '@assets/logo.svg';
@@ -20,6 +20,11 @@ const navTabs: NavTabType[] = [
 ];
 
 const Layout: FC = () => {
+  const { pathname } = useLocation();
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return (
     <AppShell
       navbar={{
@@ -29,7 +34,7 @@ const Layout: FC = () => {
     >
       <AppShell.Navbar withBorder={false} className={classes.nav}>
         <Group gap={12}>
-          <img src={logo} />
+          <Image src={logo} />
           <Text fz={24} fw={600} c="purple.5" ff="Poppins">
             ArrowFlicks
           </Text>
@@ -49,7 +54,7 @@ const Layout: FC = () => {
         </Stack>
       </AppShell.Navbar>
       <AppShell.Main>
-        <Stack px={90} py={40} mih="100vh" bg="gray.1">
+        <Stack px={90} py={40} bg="gray.1">
           <Outlet />
         </Stack>
       </AppShell.Main>

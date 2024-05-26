@@ -20,31 +20,32 @@ const Info: FC<InfoProps> = ({ movie, isBig, genres }) => {
     isDetailed &&
       isBig && {
         label: 'Duration',
-        value: formatMovieDuration(movie.runtime),
+        value: formatMovieDuration(movie.runtime) || 'No info',
       },
     isDetailed &&
       isBig && {
         label: 'Premiere',
-        value: formatMovieReleaseDate(movie.release_date),
+        value: formatMovieReleaseDate(movie.release_date) || 'No info',
       },
     isDetailed &&
       isBig && {
         label: 'Budget',
-        value: formatCurrency(movie.budget),
+        value: formatCurrency(movie.budget) || 'No info',
       },
     isDetailed &&
       isBig && {
         label: 'Gross worldwide',
-        value: formatCurrency(movie.revenue),
+        value: formatCurrency(movie.revenue) || 'No info',
       },
     {
       label: 'Genres',
-      value: isDetailed
-        ? movie.genres.map(({ name }) => name).join(', ')
-        : genres
-            ?.filter(({ id }) => movie?.genre_ids?.includes(id))
-            .map(({ name }) => name)
-            .join(', '),
+      value:
+        (isDetailed
+          ? movie.genres.map(({ name }) => name).join(', ')
+          : genres
+              ?.filter(({ id }) => movie?.genre_ids?.includes(id))
+              .map(({ name }) => name)
+              .join(', ')) || 'No info',
     },
   ].filter((detail): detail is Detail => Boolean(detail));
 
