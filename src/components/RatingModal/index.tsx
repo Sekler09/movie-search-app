@@ -1,4 +1,4 @@
-import { Button, Group, Modal, Rating, Text } from '@mantine/core';
+import { Button, Group, Modal, Rating, Stack, Text } from '@mantine/core';
 import { FC, MouseEvent, useEffect, useState } from 'react';
 import useManageRatedMovies from '@/hooks/useManageRatedMovies';
 
@@ -34,27 +34,44 @@ const RatingModal: FC<RatingModalProps> = ({ opened, id, title, onClose }) => {
   };
 
   return (
-    <Modal
+    <Modal.Root
       opened={opened}
+      centered
       onClose={onClose}
-      title="Your rating"
       onClick={handleModalClick}
     >
-      <Rating
-        value={rating}
-        onChange={setRating}
-        fractions={2}
-        count={10}
-        size={28}
-      />
-      <Text fw={700}>{title}</Text>
-      <Group>
-        <Button onClick={handleSaveRating}>Save</Button>
-        <Button variant="transparent" onClick={handleRemoveRating}>
-          Remove rating
-        </Button>
-      </Group>
-    </Modal>
+      <Modal.Overlay />
+      <Modal.Content radius={8} maw={380}>
+        <Modal.Header p={16} style={{ borderBottom: '1px solid #EAEBED' }}>
+          <Modal.Title>Your rating</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body p={16}>
+          <Stack gap={16}>
+            <Text fw={700}>{title}</Text>
+            <Rating
+              value={rating}
+              onChange={setRating}
+              fractions={2}
+              count={10}
+              size={28}
+              styles={{
+                root: {
+                  width: '100%',
+                  justifyContent: 'space-between',
+                },
+              }}
+            />
+            <Group>
+              <Button onClick={handleSaveRating}>Save</Button>
+              <Button variant="transparent" onClick={handleRemoveRating}>
+                Remove rating
+              </Button>
+            </Group>
+          </Stack>
+        </Modal.Body>
+      </Modal.Content>
+    </Modal.Root>
   );
 };
 

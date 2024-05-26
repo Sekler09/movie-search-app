@@ -3,6 +3,7 @@ import { MantineThemeOverride, colorsTuple, createTheme } from '@mantine/core';
 export const theme: MantineThemeOverride = createTheme({
   fontFamily: 'Inter, sans-serif',
   primaryColor: 'purple',
+  primaryShade: 5,
   colors: {
     gray: [
       '#F5F5F6',
