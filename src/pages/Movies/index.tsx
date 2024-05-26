@@ -55,7 +55,6 @@ const MoviesPage: FC = () => {
                   <MovieCard
                     key={movie.id}
                     movie={movie}
-                    type="small"
                     genres={genresData?.genres}
                   />
                 ))}

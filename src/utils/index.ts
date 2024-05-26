@@ -13,3 +13,22 @@ export const buildParams = (params: GetMoviesParams) => {
 
   return searchParams.toString();
 };
+
+export const formatMovieDuration = (duration: number): string => {
+  if (!duration) return '';
+  const hours = Math.floor(duration / 60);
+  const minutes = duration - hours * 60;
+  return `${hours}h ${minutes < 10 ? 0 : ''}${minutes}m`;
+};
+
+export const formatMovieReleaseDate = (date: string): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  return new Date(date).toLocaleDateString('en-US', options);
+};
+
+export const formatCurrency = (value: number) =>
+  `$${value.toLocaleString('en-Us')}`;

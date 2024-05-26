@@ -21,7 +21,7 @@ const MovieDetailsPage = () => {
   return (
     <Stack gap={20}>
       <Breadcrumbs>{items}</Breadcrumbs>
-      {isSuccess && <MovieCard movie={data} type="big" />}
+      {isSuccess && <MovieCard movie={data} isBig />}
     </Stack>
   );
 };

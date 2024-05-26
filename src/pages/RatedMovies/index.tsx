@@ -68,7 +68,7 @@ const RatedMoviesPage: FC = () => {
             (currentPageMovies?.length ? (
               <SimpleGrid cols={2} spacing={16}>
                 {currentPageMovies.map(movie => (
-                  <MovieCard key={movie.id} movie={movie} type="small" />
+                  <MovieCard key={movie.id} movie={movie} />
                 ))}
               </SimpleGrid>
             ) : (
