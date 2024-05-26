@@ -1,11 +1,21 @@
 import { FC, useCallback, useState } from 'react';
-import { Loader, Pagination, SimpleGrid, Stack, Title } from '@mantine/core';
+import {
+  Center,
+  Image,
+  Loader,
+  Pagination,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core';
 import { useWindowScroll } from '@mantine/hooks';
 import { useGetGenres, useGetMovies } from '@/api';
 import Filters from '@/components/Filters';
-
 import MovieCard from '@/components/MovieCard';
 import { GetMoviesParams, Sorting } from '@/types';
+
+import noResultsImg from '@assets/nomovies.svg';
 
 const MoviesPage: FC = () => {
   const [page, setPage] = useState<number>(1);
@@ -18,8 +28,12 @@ const MoviesPage: FC = () => {
     sortBy: Sorting.PopularityDesc,
   });
 
-  const { data: genresData, isSuccess: isGenresSuccess } = useGetGenres();
-  const { data, isLoading, isSuccess, isError } = useGetMovies(params);
+  const {
+    data: genresData,
+    isSuccess: isGenresSuccess,
+    isLoading: isGenresLoading,
+  } = useGetGenres();
+  const { data, isLoading, isSuccess } = useGetMovies(params);
 
   const [, scrollTo] = useWindowScroll();
 
@@ -40,14 +54,21 @@ const MoviesPage: FC = () => {
     [setPage, setParams],
   );
 
+  if (isGenresLoading)
+    return (
+      <Center h="100vh">
+        <Loader />
+      </Center>
+    );
+
   return (
-    <Stack>
-      <Title order={1}>Movies page</Title>
+    <Stack gap={24}>
+      <Title order={1} mb={16}>
+        Movies page
+      </Title>
       {isGenresSuccess && (
         <>
           <Filters onUpdate={handleUpdateFilters} genres={genresData?.genres} />
-          {isLoading && <Loader />}
-          {isError && <Title order={2}>Error</Title>}
           {isSuccess &&
             (!isLoading && data?.results?.length ? (
               <SimpleGrid cols={2} spacing={16}>
@@ -60,7 +81,14 @@ const MoviesPage: FC = () => {
                 ))}
               </SimpleGrid>
             ) : (
-              'No results'
+              <Stack align="center" justify="center">
+                <Center>
+                  <Image src={noResultsImg} />
+                </Center>
+                <Text fz={20} fw={600}>
+                  We don&apos;t have such movies, look for another one
+                </Text>
+              </Stack>
             ))}
           {data && data.total_pages > 1 && (
             <Pagination
