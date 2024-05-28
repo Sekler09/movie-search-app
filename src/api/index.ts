@@ -5,7 +5,7 @@ import { useQueries, useQuery } from '@tanstack/react-query';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const useGetGenres = () => {
-  const url = `${API_URL}/genre/movie/list?language=en`;
+  const url = `${API_URL}/aadsfas/genre/movie/list?language=en`;
 
   const getGenres = () => fetch(url).then(r => r.json());
   interface GetGenresResponse {
@@ -33,13 +33,14 @@ export const useGetMovies = (params: GetMoviesParams) => {
   });
 };
 
-const getMovieDetails = async (movieId: number) => {
+const getMovieDetails = async (movieId: number | string) => {
   const url = `${API_URL}/movie/{id}?append_to_response=videos`;
   const res = await fetch(url.replace('{id}', `${movieId}`));
+  if (!res?.ok) throw new Error(`Error ${res.status}`);
   return (await res.json()) as MovieDetails;
 };
 
-export const useGetMovieDetails = (movieId: number) => {
+export const useGetMovieDetails = (movieId: number | string) => {
   type GetMovieResponse = MovieDetails;
   return useQuery<GetMovieResponse>({
     queryKey: ['movie', movieId],

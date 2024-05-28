@@ -12,7 +12,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import noAvatarIcon from '@assets/noprod.svg';
 import classes from './index.module.css';
 
@@ -20,8 +20,9 @@ const IMG_URL = import.meta.env.VITE_IMAGES_URL;
 const YT_EMBED_URL = 'https://www.youtube.com/embed';
 
 const MovieDetailsPage = () => {
+  const navigate = useNavigate();
   const { movieId } = useParams();
-  const { data, isLoading, isSuccess } = useGetMovieDetails(+movieId!);
+  const { data, isLoading, isSuccess, isError } = useGetMovieDetails(movieId!);
 
   const items = [
     { title: 'Movies', href: '/movies' },
@@ -33,6 +34,9 @@ const MovieDetailsPage = () => {
   ));
 
   const trailer = data?.videos?.results?.find(({ site }) => site === 'YouTube');
+
+  console.log(isError, isSuccess, isLoading);
+  if (isError) navigate('/not-found');
 
   return (
     <Stack gap={20}>
@@ -71,7 +75,7 @@ const MovieDetailsPage = () => {
                 <Divider color="gray.3" />
               </>
             )}
-            {data.production_companies.length && (
+            {data.production_companies?.length && (
               <>
                 <Stack gap={16}>
                   <Title className={classes.title}>Production</Title>
