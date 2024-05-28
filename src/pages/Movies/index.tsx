@@ -5,6 +5,7 @@ import {
   Loader,
   Pagination,
   SimpleGrid,
+  Skeleton,
   Stack,
   Text,
   Title,
@@ -64,13 +65,20 @@ const MoviesPage: FC = () => {
   return (
     <Stack gap={24}>
       <Title order={1} mb={16}>
-        Movies page
+        Movies
       </Title>
       {isGenresSuccess && (
         <>
           <Filters onUpdate={handleUpdateFilters} genres={genresData?.genres} />
+          {isLoading && (
+            <SimpleGrid cols={2} spacing={16}>
+              {new Array(20).fill(0).map((_, i) => (
+                <Skeleton h={220} key={i} />
+              ))}
+            </SimpleGrid>
+          )}
           {isSuccess &&
-            (!isLoading && data?.results?.length ? (
+            (data?.results?.length ? (
               <SimpleGrid cols={2} spacing={16}>
                 {data.results.map(movie => (
                   <MovieCard

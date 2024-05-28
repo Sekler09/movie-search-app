@@ -1,25 +1,31 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 import {
   Button,
+  Center,
   Group,
+  Image,
   Loader,
   Pagination,
   SimpleGrid,
   Stack,
+  Text,
   TextInput,
   Title,
 } from '@mantine/core';
 import useManageRatedMovies from '@/hooks/useManageRatedMovies';
 import { useGetGenres, useGetRatedMovies } from '@/api';
 import MovieCard from '@/components/MovieCard';
+import noRatedImg from '@assets/norated.svg';
+import { useNavigate } from 'react-router-dom';
 
 const RatedMoviesPage: FC = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [debouncedsearch, setDebouncedSearch] = useState('');
 
   const { ratedMovies } = useManageRatedMovies();
   const genres = useGetGenres();
-  const { data, isError, isLoading, isSuccess } = useGetRatedMovies(
+  const { data, isLoading, isSuccess } = useGetRatedMovies(
     ratedMovies.map(({ id }) => id),
   );
 
@@ -49,17 +55,29 @@ const RatedMoviesPage: FC = () => {
     setPage(1);
   };
 
+  if (!ratedMovies?.length)
+    return (
+      <Center h="calc(100vh - 80px)">
+        <Stack align="center">
+          <Image src={noRatedImg} />
+          <Text fz={20} fw={600}>
+            You haven&apos;t rated any films yet
+          </Text>
+          <Button onClick={() => navigate('/')}>Find movies</Button>
+        </Stack>
+      </Center>
+    );
+
   return (
     <Stack>
       <Group>
-        <Title order={1}>Movies page</Title>
+        <Title order={1}>Rated movies</Title>
         <TextInput
           value={search}
           onChange={e => setSearch(e.currentTarget.value)}
           rightSection={<Button onClick={handleSearch}>Search</Button>}
         />
       </Group>
-      {(isError || genres.isError) && <Title order={2}>Error</Title>}
       {genres.isSuccess && (
         <>
           {isLoading && <Loader />}
