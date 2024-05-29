@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Button,
   Center,
@@ -22,7 +22,7 @@ const RatedMoviesPage: FC = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  const [debouncedsearch, setDebouncedSearch] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const { ratedMovies } = useManageRatedMovies();
   const { data, isLoading, isSuccess } = useGetRatedMovies(
@@ -32,11 +32,9 @@ const RatedMoviesPage: FC = () => {
   const filteredMovies = useMemo(
     () =>
       data?.filter(movie =>
-        movie?.original_title
-          .toLowerCase()
-          .includes(debouncedsearch.toLowerCase()),
+        movie?.original_title.toLowerCase().includes(search.toLowerCase()),
       ),
-    [data, debouncedsearch],
+    [data, search],
   );
 
   const currentPageMovies = useMemo(
@@ -49,8 +47,12 @@ const RatedMoviesPage: FC = () => {
   }, [currentPageMovies, page]);
 
   const handleSearch = () => {
-    setDebouncedSearch(search);
+    setSearch(searchRef.current?.value ?? '');
     setPage(1);
+  };
+
+  const handleResetSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.value) setSearch('');
   };
 
   if (!ratedMovies?.length)
@@ -71,8 +73,8 @@ const RatedMoviesPage: FC = () => {
       <Group>
         <Title order={1}>Rated movies</Title>
         <TextInput
-          value={search}
-          onChange={e => setSearch(e.currentTarget.value)}
+          ref={searchRef}
+          onChange={handleResetSearch}
           rightSection={<Button onClick={handleSearch}>Search</Button>}
         />
       </Group>
