@@ -5,7 +5,7 @@ import { useQueries, useQuery } from '@tanstack/react-query';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const useGetGenres = () => {
-  const url = `${API_URL}/aadsfas/genre/movie/list?language=en`;
+  const url = `${API_URL}/genre/movie/list?language=en`;
 
   const getGenres = () => fetch(url).then(r => r.json());
   interface GetGenresResponse {
